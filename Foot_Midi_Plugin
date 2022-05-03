@@ -1,0 +1,138 @@
+#include "MIDIUSB.h" // Biblioteca MIDIUSB
+
+int fx1, fx2, fx3, fx4, fx5 = 0;//-Define botões de FX com valor ZERO por padrão, que no caso usam o pinos 8, 9, 10, 11, 12.
+
+byte channel = 0;//----------------Canal MIDI.
+
+void setup() {
+    pinMode(2, INPUT_PULLUP);//----Definindo entrada dos pinos dos Botões de Patchs.
+    pinMode(3, INPUT_PULLUP);
+    pinMode(4, INPUT_PULLUP);
+    pinMode(5, INPUT_PULLUP);
+    pinMode(6, INPUT_PULLUP);
+    
+    pinMode(8, INPUT_PULLUP);//----Definindo entrada dos pinos dos Botões de Efeitos.
+    pinMode(9, INPUT_PULLUP);
+    pinMode(10, INPUT_PULLUP);
+    pinMode(11, INPUT_PULLUP);
+    pinMode(12, INPUT_PULLUP);
+
+    pinMode(A0, OUTPUT);//---------Definindo saída dos pinos dos LEDs dos Patches.
+    pinMode(A1, OUTPUT);
+    pinMode(A2, OUTPUT);
+    pinMode(A3, OUTPUT);
+    pinMode(A4, OUTPUT);
+
+    pinMode(A5, OUTPUT);//---------Definindo saída dos pinos dos LEDs dos Efeitos
+    pinMode(13, OUTPUT);
+    pinMode(7, OUTPUT);
+    pinMode(2, OUTPUT);
+    pinMode(1, OUTPUT);
+}
+ 
+void loop() {
+
+    //########### BOTÕES QUE ENVIAM COMANDOS PC PARA TROCA DE PATCHES ###########
+    
+    if(digitalRead(2) == LOW ) {//----Se o botão no pino 8 for pressioanado.
+    programChange(channel, 0);//------Envie a mensagem PC para Patch1.
+    delay(200);//---------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    digitalWrite(A0, HIGH);//---------Acende o LED do Botão1.
+    digitalWrite(A1, LOW);digitalWrite(A2, LOW);digitalWrite(A3, LOW);digitalWrite(A4, LOW);//--Apaga os lEDs dos outros Botões.
+    }
+
+    if(digitalRead(3) == LOW ) {//----Se o botão no pino 8 for pressioanado.
+    programChange(channel, 1);//------Envie a mensagem PC para Patch2.
+    delay(200);//---------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    digitalWrite(A1, HIGH);//---------Acende o LED do Botão2.
+    digitalWrite(A0, LOW);digitalWrite(A2, LOW);digitalWrite(A3, LOW);digitalWrite(A4, LOW);//--Apaga os lEDs dos outros Botões.
+    }
+
+    if(digitalRead(4) == LOW ) {//----Se o botão no pino 8 for pressioanado.
+    programChange(channel, 2);//------Envie a mensagem PC para Patch3.
+    delay(200);//---------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    digitalWrite(A2, HIGH);//---------Acende o LED do Botão3.
+    digitalWrite(A0, LOW);digitalWrite(A1, LOW);digitalWrite(A3, LOW);digitalWrite(A4, LOW);//--Apaga os lEDs dos outros Botões.
+    }
+
+    if(digitalRead(5) == LOW ) {//----Se o botão no pino 8 for pressioanado.
+    programChange(channel, 3);//------Envie a mensagem PC para Patch4.
+    delay(200);//---------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    digitalWrite(A3, HIGH);//---------Acende o LED do Botão4.
+    digitalWrite(A0, LOW);digitalWrite(A2, LOW);digitalWrite(A1, LOW);digitalWrite(A4, LOW);//--Apaga os lEDs dos outros Botões.
+    }
+
+    if(digitalRead(6) == LOW ) {//----Se o botão no pino 8 for pressioanado.
+    programChange(channel, 4);//------Envie a mensagem PC para Patch5.
+    delay(200);//---------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    digitalWrite(A4, HIGH);//---------Acende o LED do Botão5.
+    digitalWrite(A0, LOW);digitalWrite(A2, LOW);digitalWrite(A3, LOW);digitalWrite(A1, LOW);//--Apaga os lEDs dos outros Botões.
+    }
+    //########### FIM DO BLOCO DOS BOTÕES DE COMANDOS PC ###########
+
+
+    //########### BOTÕES QUE ENVIAM COMANDOS CC PARA LIGAR E DESLIGAR EFEITOS ###########
+    
+    if(digitalRead(8) == LOW ) {//-------------Se o botão no pino 8 for pressioanado.
+    fx1 = !fx1;//------------------------------O valor dele pode ser de 0 ou 1.
+    if(digitalRead(8) == LOW && fx1 == 1) {//--Quando Botão no Pino 8 for pressionado e o valor for igual a 1.
+    controlChange(0xB0, 0x40, 0x00);//---------Envia o comando CC#64 ON.
+    digitalWrite(A5, HIGH);}//-----------------Acende o LED do Botão FX1.       
+    else{controlChange(0xB0, 0x40, 0x7F);//----Se o valor for igual a 0, envia o comando CC#64 OFF.
+    digitalWrite(A5, LOW);}//------------------Apaga o LED do Botão FX1. 
+    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    }
+
+    if(digitalRead(9) == LOW ) {//-------------Se o botão no pino 9 for pressioanado.
+    fx2 = !fx2;//------------------------------O valor dele pode ser de 0 ou 1.
+    if(digitalRead(9) == LOW && fx2 == 1) {//--Quando Botão no Pino 9 for pressionado e o valor for igual a 1.
+    controlChange(0xB0, 0x50, 0x00);//---------Envia o comando CC#80 ON.
+    digitalWrite(13, HIGH);}//-----------------Acende o LED do Botão FX2.
+    else{controlChange(0xB0, 0x50, 0x7F);//----Se o valor for igual a 0, envia o comando CC#80 OFF.
+    digitalWrite(13, LOW);}//------------------Apaga o LED do Botão FX2. 
+    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    }
+
+    if(digitalRead(10) == LOW ) {//------------Se o botão no pino 10 for pressioanado.
+    fx3 = !fx3;//------------------------------O valor dele pode ser de 0 ou 1.
+    if(digitalRead(10) == LOW && fx3 == 1) {//-Quando Botão no Pino 10 for pressionado e o valor for igual a 1.
+    controlChange(0xB0, 0x42, 0x00);//---------Envia o comando CC#66 ON.
+    digitalWrite(7, HIGH);}//------------------Acende o LED do Botão FX3.
+    else{controlChange(0xB0, 0x42, 0x7F);//----Se o valor for igual a 0, envia o comando CC#66 OFF.
+    digitalWrite(7, LOW);}//-------------------Apaga o LED do Botão FX3. 
+    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    }
+
+    if(digitalRead(11) == LOW ) {//------------Se o botão no pino 11 for pressioanado.
+    fx4 = !fx4;//------------------------------O valor dele pode ser de 0 ou 1.
+    if(digitalRead(11) == LOW && fx4 == 1) {//-Quando Botão no Pino 11 for pressionado e o valor for igual a 1.
+    controlChange(0xB0, 0x52, 0x00);//---------Envia o comando CC#82 ON.
+    digitalWrite(1, HIGH);}//------------------Acende o LED do Botão FX4.
+    else{controlChange(0xB0, 0x52, 0x7F);//----Se o valor for igual a 0, envia o comando CC#82 OFF.
+    digitalWrite(1, LOW);}//-------------------Apaga o LED do Botão FX4. 
+    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    }
+
+    if(digitalRead(12) == LOW ) {//------------Se o botão no pino 12 for pressioanado.
+    fx5 = !fx5;//------------------------------O valor dele pode ser de 0 ou 1.
+    if(digitalRead(12) == LOW && fx5 == 1) {// Quando Botão no Pino 12 for pressionado e o valor for igual a 1.
+    controlChange(0xB0, 0x10, 0x00);//---------Envia o comando CC#16 ON.
+    digitalWrite(0, HIGH);}//------------------Acende o LED do Botão FX5.
+    else{controlChange(0xB0, 0x10, 0x7F);//----Se o valor for igual a 0, envia o comando CC#16 OFF.
+    digitalWrite(0, LOW);}//-------------------Apaga o LED do Botão FX5. 
+    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    }
+    //########### FIM DO BLOCO DOS BOTÕES DE COMANDOS CC ###########
+   
+    MidiUSB.flush();  // Enviar mensagem imediatamente.
+}
+
+void programChange(byte channel, byte patch) {//---------------Ativando envio dos comandos PC.
+  midiEventPacket_t event = {0x0C, 0xC0  | channel, patch};//--Onde iniciará o envio dos comandos PC.
+  MidiUSB.sendMIDI(event);//-----------------------------------Enviando comandos PC.
+}
+
+void controlChange(byte channel, byte control, byte value) {//------------Código de controle dos comandos CC.
+  midiEventPacket_t eventcc = {0x0B, 0xB0  | channel, control, value};//--Onde iniciará o envio dos comandos CC.
+  MidiUSB.sendMIDI(eventcc);//--------------------------------------------Enviando comandos CC.
+}
