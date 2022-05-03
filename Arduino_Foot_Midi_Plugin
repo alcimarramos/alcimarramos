@@ -11,11 +11,11 @@ void setup() {
     pinMode(5, INPUT_PULLUP);
     pinMode(6, INPUT_PULLUP);
     
-    pinMode(8, INPUT_PULLUP);//----Definindo entrada dos pinos dos Botões de Efeitos.
+    pinMode(7, INPUT_PULLUP);//----Definindo entrada dos pinos dos Botões de Efeitos.
+    pinMode(8, INPUT_PULLUP);
     pinMode(9, INPUT_PULLUP);
     pinMode(10, INPUT_PULLUP);
     pinMode(11, INPUT_PULLUP);
-    pinMode(12, INPUT_PULLUP);
 
     pinMode(A0, OUTPUT);//---------Definindo saída dos pinos dos LEDs dos Patches.
     pinMode(A1, OUTPUT);
@@ -24,10 +24,10 @@ void setup() {
     pinMode(A4, OUTPUT);
 
     pinMode(A5, OUTPUT);//---------Definindo saída dos pinos dos LEDs dos Efeitos
+    pinMode(12, OUTPUT);
     pinMode(13, OUTPUT);
-    pinMode(7, OUTPUT);
-    pinMode(2, OUTPUT);
     pinMode(1, OUTPUT);
+    pinMode(0, OUTPUT);
 }
  
 void loop() {
@@ -73,9 +73,9 @@ void loop() {
 
     //########### BOTÕES QUE ENVIAM COMANDOS CC PARA LIGAR E DESLIGAR EFEITOS ###########
     
-    if(digitalRead(8) == LOW ) {//-------------Se o botão no pino 8 for pressioanado.
+    if(digitalRead(7) == LOW ) {//-------------Se o botão no pino 7 for pressioanado.
     fx1 = !fx1;//------------------------------O valor dele pode ser de 0 ou 1.
-    if(digitalRead(8) == LOW && fx1 == 1) {//--Quando Botão no Pino 8 for pressionado e o valor for igual a 1.
+    if(digitalRead(7) == LOW && fx1 == 1) {//--Quando Botão no Pino 8 for pressionado e o valor for igual a 1.
     controlChange(0xB0, 0x40, 0x00);//---------Envia o comando CC#64 ON.
     digitalWrite(A5, HIGH);}//-----------------Acende o LED do Botão FX1.       
     else{controlChange(0xB0, 0x40, 0x7F);//----Se o valor for igual a 0, envia o comando CC#64 OFF.
@@ -83,29 +83,29 @@ void loop() {
     delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
     }
 
-    if(digitalRead(9) == LOW ) {//-------------Se o botão no pino 9 for pressioanado.
+    if(digitalRead(8) == LOW ) {//-------------Se o botão no pino 8 for pressioanado.
     fx2 = !fx2;//------------------------------O valor dele pode ser de 0 ou 1.
-    if(digitalRead(9) == LOW && fx2 == 1) {//--Quando Botão no Pino 9 for pressionado e o valor for igual a 1.
+    if(digitalRead(8) == LOW && fx2 == 1) {//--Quando Botão no Pino 8 for pressionado e o valor for igual a 1.
     controlChange(0xB0, 0x50, 0x00);//---------Envia o comando CC#80 ON.
-    digitalWrite(13, HIGH);}//-----------------Acende o LED do Botão FX2.
+    digitalWrite(12, HIGH);}//-----------------Acende o LED do Botão FX2.
     else{controlChange(0xB0, 0x50, 0x7F);//----Se o valor for igual a 0, envia o comando CC#80 OFF.
-    digitalWrite(13, LOW);}//------------------Apaga o LED do Botão FX2. 
+    digitalWrite(12, LOW);}//------------------Apaga o LED do Botão FX2. 
+    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
+    }
+
+    if(digitalRead(9) == LOW ) {//------------Se o botão no pino 9 for pressioanado.
+    fx3 = !fx3;//------------------------------O valor dele pode ser de 0 ou 1.
+    if(digitalRead(9) == LOW && fx3 == 1) {//--Quando Botão no Pino 9 for pressionado e o valor for igual a 1.
+    controlChange(0xB0, 0x42, 0x00);//---------Envia o comando CC#66 ON.
+    digitalWrite(13, HIGH);}//-----------------Acende o LED do Botão FX3.
+    else{controlChange(0xB0, 0x42, 0x7F);//----Se o valor for igual a 0, envia o comando CC#66 OFF.
+    digitalWrite(13, LOW);}//------------------Apaga o LED do Botão FX3. 
     delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
     }
 
     if(digitalRead(10) == LOW ) {//------------Se o botão no pino 10 for pressioanado.
-    fx3 = !fx3;//------------------------------O valor dele pode ser de 0 ou 1.
-    if(digitalRead(10) == LOW && fx3 == 1) {//-Quando Botão no Pino 10 for pressionado e o valor for igual a 1.
-    controlChange(0xB0, 0x42, 0x00);//---------Envia o comando CC#66 ON.
-    digitalWrite(7, HIGH);}//------------------Acende o LED do Botão FX3.
-    else{controlChange(0xB0, 0x42, 0x7F);//----Se o valor for igual a 0, envia o comando CC#66 OFF.
-    digitalWrite(7, LOW);}//-------------------Apaga o LED do Botão FX3. 
-    delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
-    }
-
-    if(digitalRead(11) == LOW ) {//------------Se o botão no pino 11 for pressioanado.
     fx4 = !fx4;//------------------------------O valor dele pode ser de 0 ou 1.
-    if(digitalRead(11) == LOW && fx4 == 1) {//-Quando Botão no Pino 11 for pressionado e o valor for igual a 1.
+    if(digitalRead(10) == LOW && fx4 == 1) {//-Quando Botão no Pino 10 for pressionado e o valor for igual a 1.
     controlChange(0xB0, 0x52, 0x00);//---------Envia o comando CC#82 ON.
     digitalWrite(1, HIGH);}//------------------Acende o LED do Botão FX4.
     else{controlChange(0xB0, 0x52, 0x7F);//----Se o valor for igual a 0, envia o comando CC#82 OFF.
@@ -113,9 +113,9 @@ void loop() {
     delay(200);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
     }
 
-    if(digitalRead(12) == LOW ) {//------------Se o botão no pino 12 for pressioanado.
+    if(digitalRead(11) == LOW ) {//------------Se o botão no pino 11 for pressioanado.
     fx5 = !fx5;//------------------------------O valor dele pode ser de 0 ou 1.
-    if(digitalRead(12) == LOW && fx5 == 1) {// Quando Botão no Pino 12 for pressionado e o valor for igual a 1.
+    if(digitalRead(11) == LOW && fx5 == 1) {// Quando Botão no Pino 11 for pressionado e o valor for igual a 1.
     controlChange(0xB0, 0x10, 0x00);//---------Envia o comando CC#16 ON.
     digitalWrite(0, HIGH);}//------------------Acende o LED do Botão FX5.
     else{controlChange(0xB0, 0x10, 0x7F);//----Se o valor for igual a 0, envia o comando CC#16 OFF.
