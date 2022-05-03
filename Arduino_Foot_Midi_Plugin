@@ -124,7 +124,7 @@ void loop() {
     }
     //########### FIM DO BLOCO DOS BOTÕES DE COMANDOS CC ###########
    
-    MidiUSB.flush();  // Enviar mensagem imediatamente.
+    MidiUSB.flush();  // Envia as mensagens MIDI imediatamente.
 }
 
 void programChange(byte channel, byte patch) {//---------------Ativando envio dos comandos PC.
