@@ -1,8 +1,8 @@
 #include "MIDIUSB.h" // Biblioteca MIDIUSB
 
-int fx1, fx2, fx3, fx4, fx5 = 0;//-Define botões de FX com valor ZERO por padrão, que no caso usam o pinos 7, 8, 9, 10, 11.
-
 int fxLeds[] = {A0, A1, A2, A3, A4, A5, 12, 13, 1, 0};//---Pinos dos LEDs para a sequência da animaçãoa inicial.
+
+int patch2 = 0;
 
 byte channel = 0;//----------------Canal MIDI.
 
@@ -31,7 +31,7 @@ void setup() {
     pinMode(1, OUTPUT);
     pinMode(0, OUTPUT);
 
-    //########### BLOCO ANIMAÇÃO DOS LEDS NA INICIALIZAÇÃO ACENDEM E APAGAM 3 VEZES EM SEQUÊNCIA ###########
+    //################ BLOCO ANIMAÇÃO DOS LEDS NA INICIALIZAÇÃO ACENDEM E APAGAM 3 VEZES EM SEQUÊNCIA ################
     
     for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e apagarem em sequência.
     digitalWrite (fxLeds [pino], HIGH);//-----Acende os LEDs em sequência.
@@ -48,14 +48,15 @@ void setup() {
     digitalWrite (fxLeds [pino-1], LOW);//----Apaga os LEDs em sequÊncia.
     delay (70);//-----------------------------Tempo em ms que os leds acendem e apagam.    
     }
-    //########### FIM DO BLOCO ANIMAÇÃO DOS LEDS ###########
+    //##################### FIM DO BLOCO ANIMAÇÃO DOS LEDS #####################
     
     programChange(channel, 0);;//-----Inicia o primeiro Patch.
     digitalWrite(A0, HIGH);//---------Inicia o primeiro LED aceso.
-}
     
-    //########### BOTÕES QUE ENVIAM COMANDOS PC PARA A TROCA DE PATCHES ###########
-    
+}//-----FIM DO SETUP
+
+    //##################### BOTÕES QUE ENVIAM COMANDOS PC PARA EFETUAR A TROCA DE PATCHES #####################
+ 
 void loop() {
  
     if(digitalRead(2) == LOW ) {//----Se o botão no pino 2 for pressioanado.
@@ -97,10 +98,10 @@ void loop() {
     digitalWrite(A5, LOW);digitalWrite(12, LOW);digitalWrite(13, LOW);digitalWrite(1, LOW);digitalWrite(0, LOW);//--Apaga os lEDs dos efeitos.
     delay(400);//---------------------Tempo em ms até o botão enviar o mesmo comando novamente.
     }
-    //########### FIM DO BLOCO DOS BOTÕES DE COMANDOS PC ###########
+    //##################### FIM DO BLOCO DOS BOTÕES DE COMANDOS PC #####################
 
 
-    //########### BOTÕES QUE ENVIAM COMANDOS CC PARA LIGAR E DESLIGAR EFEITOS ###########
+    //#################### BOTÕES QUE ENVIAM COMANDOS CC PARA LIGAR E DESLIGAR EFEITOS #####################
     
     if(digitalRead(7) == LOW ) {//-------------Se o botão no pino 7 for pressioanado.
     digitalWrite(A5, !digitalRead (A5));//-----Ligue e leia o pino A5.
@@ -147,17 +148,18 @@ void loop() {
     delay(400);//------------------------------Tempo em ms até o botão enviar o mesmo comando novamente.
     }
 
-    //########### FIM DO BLOCO DOS BOTÕES DE COMANDOS CC ###########
+    //##################### FIM DO BLOCO DOS BOTÕES DE COMANDOS CC #####################
    
     MidiUSB.flush();  // Enviar mensagem imediatamente.
-}
+    
+}//----FIM DO LOOP
 
 void programChange(byte channel, byte patch) {//---------------Ativando envio dos comandos PC.
   midiEventPacket_t event = {0x0C, 0xC0  | channel, patch};//--Onde iniciará o envio dos comandos PC.
   MidiUSB.sendMIDI(event);//-----------------------------------Enviando comandos PC.
 }
 
-void controlChange(byte channel, byte control, byte value) {//------------Ativando envio dos comandosCC.
+void controlChange(byte channel, byte control, byte value) {//------------Código de controle dos comandos CC.
   midiEventPacket_t eventcc = {0x0B, 0xB0  | channel, control, value};//--Onde iniciará o envio dos comandos CC.
   MidiUSB.sendMIDI(eventcc);//--------------------------------------------Enviando comandos CC.
 }
