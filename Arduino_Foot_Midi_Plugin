@@ -53,7 +53,9 @@ void setup() {
     programChange(channel, 0);;//-----Inicia o primeiro Patch.
     digitalWrite(A0, HIGH);//---------Inicia o primeiro LED aceso.
 }
- 
+    
+    //########### BOTÕES QUE ENVIAM COMANDOS PC PARA A TROCA DE PATCHES ###########
+    
 void loop() {
  
     if(digitalRead(2) == LOW ) {//----Se o botão no pino 2 for pressioanado.
