@@ -33,17 +33,17 @@ void setup() {
 
     //########### BLOCO ANIMAÇÃO DOS LEDS NA INICIALIZAÇÃO ACENDEM E APAGAM 3 VEZES EM SEQUÊNCIA ###########
     
-    for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e aparem em sequência.
+    for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e apagarem em sequência.
     digitalWrite (fxLeds [pino], HIGH);//-----Acende os LEDs em sequência.
     digitalWrite (fxLeds [pino-1], LOW);//----Apaga os LEDs em sequÊncia.
     delay (70);//-----------------------------Tempo em ms que os leds acendem e apagam.   
     }
-    for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e aparem em sequência.
+    for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e apagarem em sequência.
     digitalWrite (fxLeds [pino], HIGH);//-----Acende os LEDs em sequência.
     digitalWrite (fxLeds [pino-1], LOW);//----Apaga os LEDs em sequÊncia.
     delay (70);//-----------------------------Tempo em ms que os leds acendem e apagam.   
     }
-    for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e aparem em sequência.
+    for (int pino=0; pino<=10; pino ++) {//---Verificando os 10 pinos dos LEDs para acenderem e apagarem em sequência.
     digitalWrite (fxLeds [pino], HIGH);//-----Acende os LEDs em sequência.
     digitalWrite (fxLeds [pino-1], LOW);//----Apaga os LEDs em sequÊncia.
     delay (70);//-----------------------------Tempo em ms que os leds acendem e apagam.    
@@ -155,7 +155,7 @@ void programChange(byte channel, byte patch) {//---------------Ativando envio do
   MidiUSB.sendMIDI(event);//-----------------------------------Enviando comandos PC.
 }
 
-void controlChange(byte channel, byte control, byte value) {//------------Código de controle dos comandos CC.
+void controlChange(byte channel, byte control, byte value) {//------------Ativando envio dos comandosCC.
   midiEventPacket_t eventcc = {0x0B, 0xB0  | channel, control, value};//--Onde iniciará o envio dos comandos CC.
   MidiUSB.sendMIDI(eventcc);//--------------------------------------------Enviando comandos CC.
 }
